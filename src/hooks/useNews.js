@@ -16,26 +16,22 @@ function parseRSSFeed(xmlText, category) {
   const channelTitle = doc.querySelector('channel > title')?.textContent || 'Google News'
   const items = Array.from(doc.querySelectorAll('item'))
   return items.slice(0, 20).map((item, i) => {
-    const title = item.querySelector('title')?.textContent || 'No Title'
-    const description = item.querySelector('description')?.textContent || ''
+    const rawTitle = item.querySelector('title')?.textContent || 'No Title'
+    const rawDesc = item.querySelector('description')?.textContent || ''
     const link = item.querySelector('link')?.textContent || ''
     const pubDate = item.querySelector('pubDate')?.textContent || ''
     const source = item.querySelector('source')?.textContent || channelTitle
 
-    // Strip HTML from description safely without using innerHTML
-    const cleanDesc = description
-      .replace(/<[^>]*>/g, '')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/&nbsp;/g, ' ')
-      .trim()
+    // Use DOMParser to safely extract plain text from HTML content
+    const titleDoc = new DOMParser().parseFromString(rawTitle, 'text/html')
+    const title = titleDoc.body.textContent || rawTitle
+
+    const descDoc = new DOMParser().parseFromString(rawDesc, 'text/html')
+    const cleanDesc = descDoc.body.textContent || ''
 
     return {
       id: `rss-${Date.now()}-${i}`,
-      title: title.replace(/<[^>]+>/g, '').trim(),
+      title: title.trim(),
       description: cleanDesc.trim().slice(0, 300),
       url: link,
       source: source,

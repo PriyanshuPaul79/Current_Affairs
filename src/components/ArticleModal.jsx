@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 function formatDate(dateStr) {
   if (!dateStr) return ''
@@ -17,15 +17,15 @@ export default function ArticleModal({ article, articles, onClose, onBookmark, i
   const hasPrev = currentIndex > 0
   const hasNext = currentIndex < articles.length - 1
 
-  const onPrev = () => {
+  const onPrev = useCallback(() => {
     if (hasPrev) onClose(articles[currentIndex - 1])
-  }
+  }, [hasPrev, onClose, articles, currentIndex])
 
-  const onNext = () => {
+  const onNext = useCallback(() => {
     if (hasNext) onClose(articles[currentIndex + 1])
-  }
+  }, [hasNext, onClose, articles, currentIndex])
 
-  // Close on Escape key
+  // Close on Escape / Arrow keys
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose(null)
