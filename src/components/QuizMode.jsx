@@ -1,11 +1,14 @@
-import { useQuiz } from '../hooks/useQuiz'
+import { useQuiz, MIN_ARTICLES_FOR_QUIZ } from '../hooks/useQuiz'
 
 export default function QuizMode({ articles }) {
-  if (!articles || articles.length < 2) {
+  if (!articles || articles.length < MIN_ARTICLES_FOR_QUIZ) {
     return (
       <div className="quiz-start">
         <h2>🧠 Quiz Mode</h2>
-        <p>Please fetch at least 2 news articles first, then return here to start a quiz based on them.</p>
+        <p>
+          Please fetch at least {MIN_ARTICLES_FOR_QUIZ} news articles first, then return here to
+          start a quiz based on them.
+        </p>
       </div>
     )
   }

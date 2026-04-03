@@ -11,8 +11,9 @@ const CATEGORY_QUERIES = {
 }
 
 function parseRSSFeed(xmlText, category) {
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(xmlText, 'application/xml')
+  const xmlParser = new DOMParser()
+  const htmlParser = new DOMParser()
+  const doc = xmlParser.parseFromString(xmlText, 'application/xml')
   const channelTitle = doc.querySelector('channel > title')?.textContent || 'Google News'
   const items = Array.from(doc.querySelectorAll('item'))
   return items.slice(0, 20).map((item, i) => {
@@ -23,10 +24,10 @@ function parseRSSFeed(xmlText, category) {
     const source = item.querySelector('source')?.textContent || channelTitle
 
     // Use DOMParser to safely extract plain text from HTML content
-    const titleDoc = new DOMParser().parseFromString(rawTitle, 'text/html')
+    const titleDoc = htmlParser.parseFromString(rawTitle, 'text/html')
     const title = titleDoc.body.textContent || rawTitle
 
-    const descDoc = new DOMParser().parseFromString(rawDesc, 'text/html')
+    const descDoc = htmlParser.parseFromString(rawDesc, 'text/html')
     const cleanDesc = descDoc.body.textContent || ''
 
     return {

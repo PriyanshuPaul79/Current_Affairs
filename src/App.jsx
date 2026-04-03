@@ -17,7 +17,6 @@ function Dashboard() {
     currentCategory, setCurrentCategory,
     currentProvider,
     sidebarOpen, closeSidebar,
-    selectedArticle, setSelectedArticle,
     apiKeys,
   } = useAppContext()
 

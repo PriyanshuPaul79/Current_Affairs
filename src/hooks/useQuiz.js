@@ -1,5 +1,8 @@
 import { useState, useCallback } from 'react'
 
+// Minimum articles needed for a meaningful quiz (1 correct + 3 distractors)
+const MIN_ARTICLES_FOR_QUIZ = 4
+
 function generateQuestions(articles) {
   return articles.slice(0, 10).map((article, index) => {
     const title = article.title || ''
@@ -14,12 +17,12 @@ function generateQuestions(articles) {
     const others = articles.filter((_, i) => i !== index)
     const distractors = []
     for (let i = 0; i < 3; i++) {
-      const other = others[i % others.length]
+      const other = others[i % Math.max(others.length, 1)]
       if (other) {
         distractors.push((other.description || other.title || '').slice(0, 100))
       }
     }
-    // Pad if not enough
+    // Pad if not enough distractors
     while (distractors.length < 3) {
       distractors.push(`Related to ${article.source || 'India'} financial news`)
     }
@@ -90,3 +93,5 @@ export function useQuiz(articles) {
     total: questions.length,
   }
 }
+
+export { MIN_ARTICLES_FOR_QUIZ }

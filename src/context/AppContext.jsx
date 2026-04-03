@@ -9,7 +9,6 @@ export function AppProvider({ children }) {
   const [currentCategory, setCurrentCategory] = useState(CATEGORIES[0])
   const [currentProvider, setCurrentProvider] = useState(PROVIDERS[0])
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [selectedArticle, setSelectedArticle] = useState(null)
   const [apiKeys, setApiKeys] = useLocalStorage('banking_api_keys', {})
 
   const saveApiKeys = (keys) => {
@@ -25,7 +24,6 @@ export function AppProvider({ children }) {
       currentCategory, setCurrentCategory,
       currentProvider, setCurrentProvider,
       sidebarOpen, toggleSidebar, closeSidebar,
-      selectedArticle, setSelectedArticle,
       apiKeys, saveApiKeys,
     }}>
       {children}
