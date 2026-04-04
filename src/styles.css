@@ -246,6 +246,13 @@ body {
   background: var(--accent-hover);
 }
 
+.api-save-msg {
+  font-size: 0.75rem;
+  color: #86efac;
+  text-align: center;
+  margin: 4px 0 0;
+}
+
 /* ===== TOPBAR ===== */
 .topbar {
   height: var(--topbar-height);
@@ -1071,6 +1078,16 @@ body {
 }
 
 .error-banner-icon { font-size: 1rem; }
+
+.fallback-banner {
+  margin-bottom: 12px;
+}
+
+.topbar-error {
+  font-size: 1rem;
+  cursor: default;
+  line-height: 1;
+}
 
 /* ===== MOBILE OVERLAY ===== */
 .sidebar-overlay {

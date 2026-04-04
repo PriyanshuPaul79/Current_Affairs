@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAppContext, CATEGORIES, PROVIDERS } from '../context/AppContext'
 
 const CATEGORY_ICONS = {
@@ -26,6 +26,8 @@ export default function Sidebar() {
 
   const [apiPanelOpen, setApiPanelOpen] = useState(false)
   const [localKeys, setLocalKeys] = useState({ ...apiKeys })
+  const [saveMsg, setSaveMsg] = useState('')
+  const saveMsgTimerRef = useRef(null)
 
   const handleCategoryClick = (cat) => {
     setCurrentCategory(cat)
@@ -40,8 +42,12 @@ export default function Sidebar() {
 
   const handleSaveKeys = () => {
     saveApiKeys(localKeys)
-    setApiPanelOpen(false)
+    setSaveMsg('✅ Keys saved!')
+    clearTimeout(saveMsgTimerRef.current)
+    saveMsgTimerRef.current = setTimeout(() => setSaveMsg(''), 3000)
   }
+
+  useEffect(() => () => clearTimeout(saveMsgTimerRef.current), [])
 
   return (
     <aside className={`sidebar${sidebarOpen ? ' open' : ''}`}>
@@ -121,6 +127,7 @@ export default function Sidebar() {
             <button className="api-save-btn" onClick={handleSaveKeys}>
               Save Keys
             </button>
+            {saveMsg && <p className="api-save-msg">{saveMsg}</p>}
           </div>
         )}
       </div>

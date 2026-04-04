@@ -19,7 +19,7 @@ export default function NewsView({ articles, loading, error, onOpenArticle, onBo
     )
   }
 
-  if (error) {
+  if (error && articles.length === 0) {
     return (
       <div className="error-banner">
         <span className="error-banner-icon">⚠️</span>
@@ -42,6 +42,12 @@ export default function NewsView({ articles, loading, error, onOpenArticle, onBo
 
   return (
     <>
+      {error && (
+        <div className="error-banner fallback-banner">
+          <span className="error-banner-icon">⚠️</span>
+          <span>{error}</span>
+        </div>
+      )}
       <div className="news-header">
         <h2>{category}</h2>
         <span className="news-count">{articles.length} articles</span>
