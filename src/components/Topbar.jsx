@@ -1,6 +1,6 @@
 import { useAppContext, PROVIDERS } from '../context/AppContext'
 
-export default function Topbar({ onFetch, loading }) {
+export default function Topbar({ onFetch, loading, error }) {
   const { currentCategory, currentProvider, setCurrentProvider, toggleSidebar } = useAppContext()
 
   const today = new Date().toLocaleDateString('en-IN', {
@@ -38,6 +38,10 @@ export default function Topbar({ onFetch, loading }) {
           }
           <span>{loading ? 'Fetching…' : 'Fetch News'}</span>
         </button>
+
+        {error && (
+          <span className="topbar-error" title={error}>⚠️</span>
+        )}
       </div>
     </header>
   )

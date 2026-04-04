@@ -67,7 +67,7 @@ function Dashboard() {
       )}
 
       <div className="main-content">
-        <Topbar onFetch={handleFetch} loading={loading} />
+        <Topbar onFetch={handleFetch} loading={loading} error={error} />
 
         <main className="content-area">
           {currentView === 'news' && (
